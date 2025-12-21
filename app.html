@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Currify — Gerador de Currículos</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+  }
+  h2 { text-align: center; }
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+
+  .form, .preview {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  .form { width: 400px; }
+
+  .preview {
+
+  width: 204mm;       /* 🔥 largura segura */
+  max-width: 100%;
+  padding: 20mm 15mm; /* reduzido para caber sem exceder A4 */
+  box-sizing: border-box;
+  color: #000;
+  background: white;
+
+  /* 🔥 ESSENCIAL: remover altura fixa */
+  min-height: auto !important;
+
+  /* 🔥 IMPEDIR QUE html2pdf FORCE QUEBRA */
+  overflow: visible !important;
+}
+
+
+  input, textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #000;
+    border-radius: 6px;
+  }
+
+  button {
+    background: #000;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  button:hover { background: #333; }
+
+  ul { padding-left: 20px; }
+
+  /* Tema minimalista */
+  #pNome {
+    font-size: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid #000;
+    padding-bottom: 5px;
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  #pCargo {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #000;
+  }
+
+  #pContato {
+    font-size: 13px;
+    color: #000;
+    line-height: 1.6;
+  }
+
+  #pContato .item {
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .preview h4 {
+    margin-top: 26px;
+    margin-bottom: 8px;
+    font-weight: 900;
+    font-size: 15px;
+    text-transform: uppercase;
+    border-bottom: 1.5px solid #000;
+    padding-bottom: 3px;
+  }
+
+  .preview p, .preview li {
+    font-size: 14px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    color: #000;
+  }
+
+  #pCompetencias, #pHabilidades {
+    background: #efefef;
+    padding: 10px;
+    border-radius: 4px;
+  }
+
+  #pResumo {
+    background: #f2f2f2;
+    padding: 10px;
+    border-left: 3px solid #000;
+    border-radius: 4px;
+  }
+
+  html, body {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.campo-obrigatorio::after {
+  content: " *";
+  color: red;
+  font-weight: bold;
+}
+
+.input-obrigatorio {
+  border: 2px solid #d32f2f;
+}
+
+.input-obrigatorio:focus {
+  outline: none;
+  border-color: #000;
+}
+
+button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<h2>Currify — Gerador de Currículos</h2>
+
+<div class="container">
+
+  <div class="form">
+
+    <input id="nome" placeholder="Nome completo">
+    <input id="cargo" placeholder="Cargo desejado">
+
+    <h4>Contato profissional</h4>
+    <input id="email" placeholder="E-mail profissional">
+    <input id="telefone" placeholder="Telefone (WhatsApp)">
+    <input id="cidade" placeholder="Cidade / Estado">
+    <input id="linkedin" placeholder="LinkedIn ou Portfólio (opcional)">
+
+    <textarea id="resumo" placeholder="Resumo profissional (1-3 linhas)"></textarea>
+    <textarea id="experiencia" placeholder="Experiências (uma por linha)"></textarea>
+    <textarea id="educacao" placeholder="Educação (uma por linha)"></textarea>
+    <textarea id="certificacoes" placeholder="Certificações e cursos extras (uma por linha)"></textarea>
+    <input id="competencias" placeholder="Competências técnicas separadas por vírgula">
+    <textarea id="resultados" placeholder="Resultados concretos (uma por linha)"></textarea>
+    <input id="habilidades" placeholder="Habilidades separadas por vírgula">
+    <textarea id="idiomas" placeholder="Idiomas (ex: Português — Nativo)"></textarea>
+
+ <div style="display:flex; gap:6px; flex-wrap:wrap;">
+      <button onclick="gerarPDF('normal')">PDF comum</button>
+      <button onclick="gerarPDF('compacto')">PDF compacto</button>
+      <button onclick="gerarPNG()">PNG</button>
+      <button onclick="limparTudo()">Limpar tudo</button>
+      <button onclick="gerarResumoAuto()">Gerar resumo automaticamente</button>
+</div>
+    
+
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="preview" id="curriculo">
+
+    <h3 id="pNome">Seu Nome</h3>
+    <p id="pCargo">Cargo desejado</p>
+
+    <p id="pContato">
+      <span class="item" id="pEmail">email@exemplo.com</span>
+      <span class="item" id="pTelefone">(00) 00000-0000</span>
+      <span class="item" id="pCidade">Cidade - Estado</span>
+      <span class="item" id="pLinkedin">linkedin.com/in/exemplo</span>
+    </p>
+
+    <p id="pResumo">Resumo profissional — escreva 1 a 3 linhas sobre você.</p>
+
+    <div id="blocoExperiencia">
+      <h4>Experiência</h4>
+      <ul id="pExperiencia"><li>Exemplo de experiência</li></ul>
+    </div>
+
+    <div id="blocoEducacao">
+      <h4>Educação</h4>
+      <ul id="pEducacao"><li>Exemplo de formação</li></ul>
+    </div>
+
+    <div id="blocoCertificacoes">
+      <h4>Certificações</h4>
+      <ul id="pCertificacoes"><li>Exemplo de curso</li></ul>
+    </div>
+
+    <div id="blocoCompetencias">
+      <h4>Competências Técnicas</h4>
+      <p id="pCompetencias">Excel, Canva, Power BI</p>
+    </div>
+
+    <div id="blocoResultados">
+      <h4>Resultados Concretos</h4>
+      <ul id="pResultados"><li>Aumento de 30% nas vendas</li></ul>
+    </div>
+
+    <div id="blocoHabilidades">
+      <h4>Habilidades</h4>
+      <p id="pHabilidades">Comunicação, Liderança</p>
+    </div>
+
+    <div id="blocoIdiomas">
+      <h4>Idiomas</h4>
+      <ul id="pIdiomas"><li>Português — Nativo</li></ul>
+    </div>
+
+  </div>
+</div>
+
+
+<script>
+
+
+
+const nome = document.getElementById("nome");
+const cargo = document.getElementById("cargo");
+
+const pNome = document.getElementById("pNome");
+const pCargo = document.getElementById("pCargo");
+
+const email = document.getElementById("email");
+const telefone = document.getElementById("telefone");
+const cidade = document.getElementById("cidade");
+const linkedin = document.getElementById("linkedin");
+
+const pEmail = document.getElementById("pEmail");
+const pTelefone = document.getElementById("pTelefone");
+const pCidade = document.getElementById("pCidade");
+const pLinkedin = document.getElementById("pLinkedin");
+
+const resumo = document.getElementById("resumo");
+const pResumo = document.getElementById("pResumo");
+
+const experiencia = document.getElementById("experiencia");
+const educacao = document.getElementById("educacao");
+const certificacoes = document.getElementById("certificacoes");
+const resultados = document.getElementById("resultados");
+const idiomas = document.getElementById("idiomas");
+
+const pExperiencia = document.getElementById("pExperiencia");
+const pEducacao = document.getElementById("pEducacao");
+const pCertificacoes = document.getElementById("pCertificacoes");
+const pResultados = document.getElementById("pResultados");
+const pIdiomas = document.getElementById("pIdiomas");
+
+const competencias = document.getElementById("competencias");
+const habilidades = document.getElementById("habilidades");
+
+const pCompetencias = document.getElementById("pCompetencias");
+const pHabilidades = document.getElementById("pHabilidades");
+
+const blocoCompetencias = document.getElementById("blocoCompetencias");
+const blocoHabilidades = document.getElementById("blocoHabilidades");
+
+const blocoExperiencia = document.getElementById("blocoExperiencia");
+const blocoEducacao = document.getElementById("blocoEducacao");
+const blocoCertificacoes = document.getElementById("blocoCertificacoes");
+const blocoResultados = document.getElementById("blocoResultados");
+const blocoIdiomas = document.getElementById("blocoIdiomas");
+
+const nomeValor = nome.value || "O candidato";
+const cargoValor = cargo.value || "profissional";
+ 
+
+
+const campos = [
+  "nome","cargo","email","telefone","cidade","linkedin","resumo",
+  "experiencia","educacao","certificacoes","competencias",
+  "resultados","habilidades","idiomas"
+];
+
+campos.forEach(id=>{
+  document.getElementById(id).addEventListener("input", atualizarPreview);
+});
+
+function atualizarPreview(){
+
+  pNome.textContent = nome.value || "Seu Nome";
+  pCargo.textContent = cargo.value || "Cargo desejado";
+
+  pEmail.textContent = email.value || "email@exemplo.com";
+  pTelefone.textContent = telefone.value || "(00) 00000-0000";
+  pCidade.textContent = cidade.value || "Cidade - Estado";
+
+  pLinkedin.textContent = linkedin.value.trim();
+  pLinkedin.style.display = linkedin.value.trim() === "" ? "none" : "block";
+
+  pResumo.textContent = resumo.value || "Resumo profissional — escreva 1 a 3 linhas sobre você.";
+
+
+  // Função geral para esconder se estiver vazio
+ function renderList(inputEl, listEl, blockEl) {
+  const lines = inputEl.value
+    .split("\n")
+    .map(l => l.trim())
+    .filter(l => l !== "");
+
+  if (lines.length === 0) {
+    blockEl.style.display = "none";
+    return;
+  }
+
+  blockEl.style.display = "block";
+  listEl.innerHTML = lines.map(e => `<li>${e}</li>`).join("");
+}
+
+renderList(experiencia, pExperiencia, blocoExperiencia);
+renderList(educacao, pEducacao, blocoEducacao);
+renderList(certificacoes, pCertificacoes, blocoCertificacoes);
+renderList(resultados, pResultados, blocoResultados);
+renderList(idiomas, pIdiomas, blocoIdiomas);
+  // Competências
+  const comp = competencias.value.trim();
+  if (comp === "") {
+    blocoCompetencias.style.display = "none";
+  } else {
+    blocoCompetencias.style.display = "block";
+    pCompetencias.textContent = comp;
+  }
+
+  // Habilidades
+  const hab = habilidades.value.trim();
+  if (hab === "") {
+    blocoHabilidades.style.display = "none";
+  } else {
+    blocoHabilidades.style.display = "block";
+    pHabilidades.textContent = hab;
+  }
+
+validarObrigatoriosVisual();
+
+
+
+}
+ 
+function gerarPDF(tipo) {
+
+  if (!podeBaixarPDF()) {
+    alert("Preencha todos os campos obrigatórios antes de baixar.");
+    return;
+  }
+
+  const element = document.getElementById("curriculo");
+
+  const configs = {
+  normal: {
+    filename: "curriculo.pdf",
+    scale: 4,
+    imageType: "png",
+    quality: 1
+  },
+  compacto: {
+    filename: "curriculo_compacto.pdf",
+    scale: 3,
+    imageType: "jpeg",
+    quality: 0.85
+  }
+};
+
+const c = configs[tipo];
+
+const opt = {
+  margin: 0,
+  filename: c.filename,
+  image: {
+    type: c.imageType,
+    quality: c.quality
+  },
+  html2canvas: {
+    scale: c.scale,
+    useCORS: true,
+    backgroundColor: "#ffffff"
+  },
+  jsPDF: {
+    unit: "mm",
+    format: "a4",
+    orientation: "portrait",
+    compressPDF: true
+  }
+};
+
+
+  html2pdf().set(opt).from(element).save();
+}
+ 
+function gerarResumoAuto() {
+  const nome = document.getElementById("nome").value || "O candidato";
+  const cargo = document.getElementById("cargo").value || "profissional";
+
+  const habilidades = document.getElementById("habilidades").value
+    .split(",")
+    .map(h => h.trim())
+    .filter(h => h !== "");
+
+  const experiencias = document.getElementById("experiencia").value
+    .split("\n")
+    .map(e => e.trim())
+    .filter(e => e !== "");
+
+  const h1 = habilidades[0] || "habilidades técnicas relevantes";
+  const h2 = habilidades[1] || "boa capacidade analítica";
+  const h3 = habilidades[2] || "facilidade em trabalho em equipe";
+
+  const exp = experiencias[0] || "atividades práticas e projetos aplicados";
+
+  const resumo = `${nome} é um(a) ${cargo} com perfil proativo e foco em resultados. 
+Possui experiência em ${exp}, com destaque para ${h1}. 
+Demonstra ${h2}, ${h3} e forte compromisso com aprendizado contínuo e crescimento profissional.`;
+
+  document.getElementById("resumo").value = resumo;
+  atualizarPreview();
+}
+
+function limparTudo() {
+  // Limpa todos os inputs e textareas
+  campos.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
+
+
+  atualizarPreview();
+}
+
+function validarObrigatoriosVisual() {
+
+  // Obrigatórios simples
+  const obrigatorios = ["nome", "cargo", "resumo"];
+  obrigatorios.forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.toggle("input-obrigatorio", el.value.trim() === "");
+  });
+
+  // Contato: email OU telefone
+  const email = document.getElementById("email");
+  const telefone = document.getElementById("telefone");
+
+  const contatoVazio = email.value.trim() === "" && telefone.value.trim() === "";
+  email.classList.toggle("input-obrigatorio", contatoVazio);
+  telefone.classList.toggle("input-obrigatorio", contatoVazio);
+
+  // Experiência OU Educação
+  const experiencia = document.getElementById("experiencia");
+  const educacao = document.getElementById("educacao");
+
+  const ambosVazios =
+    experiencia.value.trim() === "" && educacao.value.trim() === "";
+
+  experiencia.classList.toggle("input-obrigatorio", ambosVazios);
+  educacao.classList.toggle("input-obrigatorio", ambosVazios);
+}
+function podeBaixarPDF() {
+
+  // Obrigatórios simples
+  if (
+    nome.value.trim() === "" ||
+    cargo.value.trim() === "" ||
+    resumo.value.trim() === ""
+  ) return false;
+
+  // Contato: email OU telefone
+  if (
+    email.value.trim() === "" &&
+    telefone.value.trim() === ""
+  ) return false;
+
+  // Experiência OU Educação
+  if (
+    experiencia.value.trim() === "" &&
+    educacao.value.trim() === ""
+  ) return false;
+
+  return true;
+}
+function gerarPNG() {
+
+  if (!podeBaixarPDF()) {
+    alert("Preencha todos os campos obrigatórios antes de baixar.");
+    return;
+  }
+
+  const element = document.getElementById("curriculo");
+
+  html2canvas(element, {
+    scale: 3,
+    useCORS: true,
+    backgroundColor: "#ffffff"
+  }).then(canvas => {
+    const link = document.createElement("a");
+    link.download = "curriculo.png";
+    link.href = canvas.toDataURL("image/png", 1);
+    link.click();
+  });
+}
+
+</script>
+
+</body>
+</html>
