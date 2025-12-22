@@ -193,6 +193,25 @@
         font-size: 32px;
       }
     }
+
+    @media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 20px;
+  }
+
+  header nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  header nav a {
+    margin-left: 0;
+  }
+}
   </style>
 </head>
 
@@ -278,3 +297,4 @@
 
 </body>
 </html>
+
