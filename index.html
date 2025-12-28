@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Currify — Crie currículos profissionais em minutos</title>
+<link rel="icon" type="image/png" href="logo.png">
 
   <!-- SEO básico -->
   <meta name="description" content="Crie currículos profissionais em minutos com modelos modernos e exportação em PDF." />
@@ -212,6 +213,25 @@
     margin-left: 0;
   }
 }
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo {
+  height: 48px;      /* tamanho ideal desktop */
+  width: auto;
+}
+
+/* Ajuste no mobile */
+@media (max-width: 768px) {
+  .logo {
+    height: 40px;
+  }
+}
+
   </style>
 </head>
 
@@ -234,11 +254,16 @@
 <body>
 
 <header>
-  <h1>Currify</h1>
-  <nav>
+  
+  
+  <a href="index.html">
+    <img class="logo" src="logo.png" alt="Logo Currify"> 
+  </a>
+  
+  <nav>  
     <a href="#">Entrar</a> 
     <a href="sobre.html">Sobre</a>
-    <a class="btn-primary" href="app.html">Criar meu currículo</a>
+    <a class="btn-primary" href="frr/app.html">Criar meu currículo</a>
 
   </nav>
 </header>
@@ -247,7 +272,7 @@
   <h2>Crie currículos profissionais em minutos</h2>
   <p>O <strong>Currify</strong> é uma ferramenta online que transforma suas informações profissionais em um currículo moderno, organizado e pronto para envio — sem complicação e sem precisar saber design.</p>
   <div class="cta-group">
-    <a class="btn-primary" href="app.html">Criar meu currículo</a>
+    <a class="btn-primary" href="frr/app.html">Criar meu currículo</a>
     <a class="btn-secondary" href="#">Ver exemplos</a>
   </div>
 </section>
@@ -297,4 +322,3 @@
 
 </body>
 </html>
-
