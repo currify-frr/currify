@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Currify — Gerador de Currículos</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<header class="top-bar">
+  <a href="../index/index.html" class="back-link">← Início</a>
+
+  <div class="top-actions">
+    <button class="btn-secundario" onclick="gerarResumoAuto()">
+      Gerar resumo automático
+    </button>
+
+    <button class="btn-secundario" onclick="limparTudo()">
+      Limpar tudo
+    </button>
+  </div>
+</header>
+
+ 
+
+
+
+  <div class="template-overlay" id="templateOverlay">
+    <div class="template-screen">
+  <h2>Escolha um modelo</h2>
+  <p class="subtitle">Todos são profissionais e aprovados por recrutadores</p>
+
+  <div class="templates-grid">
+           <div class="template-card active" data-model="minimal">
+    <img src="minimal.png" alt="Modelo minimalista">
+    <span>Minimalista</span>
+  </div>
+
+    <!-- EM BREVE -->
+  <div class="template-card disabled">
+    <div class="badge">Em breve</div>
+    <div class="placeholder"></div>
+    <span>Modern</span>
+  </div>
+
+  <!-- EM BREVE -->
+  <div class="template-card disabled">
+    <div class="badge">Em breve</div>
+    <div class="placeholder"></div>
+    <span>Executive</span>
+  </div>
+  </div>
+
+  <button class="btn-primario" id="usarModelo">Usar este modelo</button>
+</div>
+
+</div>
+
+  </div>
+
+
+  <div class="container">
+
+    <div class="form">
+
+      <div class="step question-card">
+        <h3>Qual é o seu nome?</h3>
+        <p class="helper">
+          Use seu nome completo
+        </p>
+
+        <input id="nome" placeholder="Ex: Antônio Silva de Paula">
+      </div>
+
+      <div class="step question-card">
+        <h3>Qual é o seu cargo atual?</h3>
+        <p class="helper">
+          Use o cargo que aparece na sua carteira ou LinkedIn
+        </p>
+
+        <input id="cargo" placeholder="Ex: Auxiliar administrativo">
+      </div>
+
+      <div class="step question-card">
+        <h3>Como o recrutador pode entrar em contato com você?</h3>
+        <p class="helper">
+          Informe pelo menos um meio de contato
+        </p>
+        <input id="email" placeholder="Ex: exemplo@gmail.com">
+        <input id="telefone" placeholder="Ex: (99)99999-9999">
+        <input id="linkedin" placeholder="LinkedIn ou Portfólio">
+      </div>
+
+<div class="step question-card">
+     <h3>Onde você está localizado(a)? (Não guardamos informalções) </h3>
+     <p class="helper">
+          Cidade e estado
+      </p>
+
+     <input id="cidade" placeholder="Ex: São Paulo – SP">
+</div>
+
+<div class="step question-card">
+     <h3>Em poucas linhas, como você se apresentaria profissionalmente?</h3>
+     <p class="helper">
+          1 a 3 linhas destacando seu perfil e objetivo
+      </p>
+
+     <input id="resumo">
+</div>
+
+<div class="step question-card">
+     <h3>Quais experiências profissionais você já teve?</h3>
+     <p class="helper">
+          Uma por linha · foco no que você fez
+      </p>
+
+     <input id="experiencia" placeholder="Experiências (uma por linha)">
+</div>
+
+<div class="step question-card">
+     <h3>Qual é a sua formação acadêmica?</h3>
+     <p class="helper">
+          Uma por linha · curso, instituição e período
+      </p>
+
+     <input id="educacao" placeholder="Educação (uma por linha)">
+</div>
+
+<div class="step question-card">
+     <h3>Quais cursos ou certificações fortalecem seu perfil?</h3>
+     <p class="helper">
+          Inclua apenas os mais relevantes
+      </p>
+
+     <input id="certificacoes" placeholder="Certificações e cursos extras (uma por linha)">
+</div>
+
+<div class="step question-card">
+     <h3>Quais ferramentas ou conhecimentos técnicos você domina?</h3>
+     <p class="helper">
+          Separe por vírgula (ex: Excel, Canva, Power BI)
+      </p>
+
+     <input id="competencias">
+</div>
+
+
+<div class="step question-card">
+     <h3>Quais resultados ou conquistas você já alcançou?</h3>
+     <p class="helper">
+          Use números sempre que possível
+      </p>
+
+     <input id="resultados">
+</div>
+
+<div class="step question-card">
+     <h3>Quais são suas principais habilidades comportamentais?</h3>
+     <p class="helper">
+          Comunicação, organização, trabalho em equipe…
+      </p>
+
+     <input id="habilidades">
+</div>
+
+
+<div class="step question-card">
+     <h3>Quais idiomas você fala e em qual nível?</h3>
+     <p class="helper">
+          Ex: Inglês — Intermediário
+      </p>
+
+     <input id="idiomas">
+</div>
+
+
+
+
+      <div class="step-nav">
+        <button class="btn-voltar" onclick="voltar()">Voltar</button>
+        <button class="btn-proximo" onclick="proximo()">Próximo</button>
+      </div>
+
+
+
+
+      <div class="download-panel">
+        <h3>Baixar currículo</h3>
+
+        <div class="download-options">
+          <label class="option active">
+            <input type="radio" name="tipo" value="normal" checked>
+            <span>
+              <strong>PDF padrão</strong>
+              <small>Alta qualidade · recomendado</small>
+            </span>
+          </label>
+
+          <label class="option">
+            <input type="radio" name="tipo" value="compacto">
+            <span>
+              <strong>PDF compacto</strong>
+              <small>Arquivo menor</small>
+            </span>
+          </label>
+
+          <label class="option">
+            <input type="radio" name="tipo" value="png">
+            <span>
+              <strong>Imagem PNG</strong>
+              <small>Ideal para WhatsApp</small>
+            </span>
+          </label>
+        </div>
+
+        <button class="download-btn" onclick="baixarSelecionado()">
+          Baixar agora
+        </button>
+      </div>
+
+    </div>
+    <div class="preview" id="curriculo">
+
+      <h3 id="pNome">Seu Nome</h3>
+      <p id="pCargo">Cargo desejado</p>
+
+      <p id="pContato">
+        <span class="item" id="pEmail">email@exemplo.com</span>
+        <span class="item" id="pTelefone">(00) 00000-0000</span>
+        <span class="item" id="pCidade">Cidade - Estado</span>
+        <span class="item" id="pLinkedin">linkedin.com/in/exemplo</span>
+      </p>
+
+      <p id="pResumo">Resumo profissional — escreva 1 a 3 linhas sobre você.</p>
+
+      <div id="blocoExperiencia">
+        <h4>Experiência</h4>
+        <ul id="pExperiencia">
+          <li>Exemplo de experiência</li>
+        </ul>
+      </div>
+
+      <div id="blocoEducacao">
+        <h4>Educação</h4>
+        <ul id="pEducacao">
+          <li>Exemplo de formação</li>
+        </ul>
+      </div>
+
+      <div id="blocoCertificacoes">
+        <h4>Certificações</h4>
+        <ul id="pCertificacoes">
+          <li>Exemplo de curso</li>
+        </ul>
+      </div>
+
+      <div id="blocoCompetencias">
+        <h4>Competências Técnicas</h4>
+        <p id="pCompetencias">Excel, Canva, Power BI</p>
+      </div>
+
+      <div id="blocoResultados">
+        <h4>Resultados Concretos</h4>
+        <ul id="pResultados">
+          <li>Aumento de 30% nas vendas</li>
+        </ul>
+      </div>
+
+      <div id="blocoHabilidades">
+        <h4>Habilidades</h4>
+        <p id="pHabilidades">Comunicação, Liderança</p>
+      </div>
+
+      <div id="blocoIdiomas">
+        <h4>Idiomas</h4>
+        <ul id="pIdiomas">
+          <li>Português — Nativo</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
