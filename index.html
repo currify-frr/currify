@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Currify — Crie currículos profissionais em minutos</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+  rel="stylesheet">
+  <meta name="description"
+  content="Crie currículos profissionais em minutos com modelos modernos e exportação em PDF." />
+  <link rel="stylesheet" href="styleg.css">
+  <link rel="stylesheet" href="style.css"> 
+</head>
+
+
+
+<body> 
+  <header>
+    <div class="nav-left"> 
+      
+      <a href="index.html">
+        <img class="logo" src="logo.png" alt="Logo Currify">
+      </a>
+
+      <nav>
+        <a href="#">Sobre</a>
+        <a href="#">Exemplos</a>
+        <a href="#">Dicas</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#" id="loginBtn">Entrar</a>
+      </nav>
+
+    </div>
+
+    <a class="header-cta" href="../frr/app.html">Criar currículo</a>
+
+
+  </header>
+  <div id="loginModal" class="modal modal-hidden">
+    <div class="modal-box">
+      <h3>Entrar no Currify</h3>
+
+      <input id="login-email" type="email" placeholder="Email" />
+      <input id="login-password" type="password" placeholder="Senha" />
+
+     <button id="loginBtn" type="button">Entrar</button>
+      <button onclick="signup()" style="background:none;border:none;color:#2563eb;">
+        Criar conta
+      </button>
+
+      <span onclick="closeLogin()" style="cursor:pointer;font-size:14px;">Fechar</span>
+    </div>
+  </div>
+  <section class="hero hero-split">
+    <div class="hero-text">
+      <h2>Crie currículos profissionais em minutos</h2>
+      <p>
+        O <strong>Currify</strong> transforma suas informações profissionais em um
+        currículo moderno, organizado e pronto para envio — sem complicação.
+      </p>
+
+      <div class="cta-group">
+        <a class="btn-primary" href="../frr/app.html">Criar meu currículo</a>
+        <div class="examples-hint">
+          <span>Veja exemplos reais</span>
+          <span class="arrow">→</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-preview">
+      <img src="cv1.png" alt="Currículo modelo 1">
+      <img src="cv2.png" alt="Currículo modelo 2">
+      <img src="cv3.png" alt="Currículo modelo 3">
+    </div>
+  </section>
+ 
+<section class="proof">
+    <h3>Benefícios</h3>
+       </section>
+
+  <section id="beneficios"  class="features">
+
+
+
+    <div class="feature-card">
+      <h3>Currículo bonito, mesmo sem experiência</h3>
+      <p>O Currify transforma um currículo simples em um layout moderno e organizado — ideal para estudantes e primeiro
+        emprego.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>Simples de verdade</h3>
+      <p>Sem telas confusas e sem termos difíceis. Você só preenche seus dados e o Currify cuida do design.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>Pronto em 5 minutos</h3>
+      <p>Em poucos minutos você sai com um currículo em PDF pronto para enviar, sem dor de cabeça.</p>
+    </div>
+  </section>
+
+
+
+
+
+
+<section id="como-funciona">
+    <section class="proof">
+    <h3>Como funciona o Currify</h3>
+    <p>Três passos simples para criar seu currículo profissional.</p>
+  </section>
+  <section class="features">
+    <div class="feature-card">
+      <h3>1️⃣ Preencha seus dados</h3>
+      <p>Informe suas experiências, estudos e habilidades de forma simples e rápida.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>2️⃣ Escolha um modelo</h3>
+      <p>Selecione um layout profissional que combine com seu perfil.</p>
+    </div>
+
+    <div class="feature-card">
+      <h3>3️⃣ Baixe em PDF</h3>
+      <p>Gere seu currículo pronto para enviar ou imprimir em poucos segundos.</p>
+    </div>
+  </section>
+</section>
+
+ <section class="proof">
+    <h3>Exemplos</h3>
+       </section>
+
+
+ 
+ 
+ <section class="proof">
+    <h3>Sobre</h3>
+       </section>
+  
+   <section class="proof">
+    <h3>Um projeto criado com propósito</h3>
+    <p>
+      O Currify foi criado para ajudar pessoas a conquistarem oportunidades
+      com currículos claros, profissionais e sem complicação.
+    </p>
+    <p>
+      <a href="sobre.html" style="color:#2563eb; font-weight:bold;">
+        Conheça a história do Currify →
+      </a>
+    </p>
+  </section>
+
+  
+
+
+
+  
+  
+  <section class="proof">
+    <p style="font-size:14px;">
+      Seus dados são usados apenas para gerar seu currículo.
+      Simples, direto e sem pegadinhas.
+    </p>
+  </section>
+
+
+
+
+
+
+
+
+  <footer>
+    © 2025 Currify — Todos os direitos reservados.
+  </footer>
+
+
+
+
+  <script>
+
+function openLogin() {
+  document
+    .getElementById("loginModal")
+    .classList.remove("modal-hidden");
+}
+
+function closeLogin() {
+  document
+    .getElementById("loginModal")
+    .classList.add("modal-hidden");
+}
+ 
+
+document.getElementById("loginBtn")
+  .addEventListener("click", login);
+
+
+
+
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+
+  <script>
+    const supabaseUrl = "https://cveedabpatcxzruyoani.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2ZWVkYWJwYXRjeHpydXlvYW5pIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcxMTY0NDMsImV4cCI6MjA4MjY5MjQ0M30.u4pBey7pIoQ-fbkAYNtEeVwKk1VHV09-JMcC5QQrVJE";
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+
+    async function login() {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        alert(error.message);
+        console.error(error);
+      }
+      else {
+        closeLogin();
+        location.href = "../frr/app.html";
+      }
+    }
+
+    async function signup() {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+      });
+
+      if (error) {
+        alert("Erro ao criar conta");
+      } else {
+        alert("Conta criada! Agora faça login.");
+      }
+    }
+
+document.getElementById("loginBtn").addEventListener("click", function (e) {
+  e.preventDefault();
+  openLogin();
+});
+
+
+
+
+  </script>
+
+
+
+
+
+
+</body>
+
+</html>
