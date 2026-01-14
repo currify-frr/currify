@@ -391,10 +391,16 @@ const cards = document.querySelectorAll(".template-card");
 let modeloSelecionado = "minimal"; // padrão
 
 cards.forEach(card => {
+  if (card.classList.contains("disabled")) return;
+
   card.addEventListener("click", () => {
     cards.forEach(c => c.classList.remove("active"));
     card.classList.add("active");
+
     modeloSelecionado = card.dataset.model;
+
+    // 🔥 A LINHA QUE FALTAVA
+    document.body.setAttribute("data-template", modeloSelecionado);
   });
 });
 

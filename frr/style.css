@@ -627,17 +627,21 @@ body.no-scroll {
   font-size: 13px;
   color: #9ca3af;
   font-weight: 600;
-}
+} 
 
 .template-screen {
-  height: 100vh;
+  min-height: 100vh;
+  height: auto;
   background: #f9fafb;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px;
+  padding: 24px 16px;
 }
+
+
+
 
 .template-screen h2 {
   font-size: 28px;
@@ -650,13 +654,16 @@ body.no-scroll {
   color: #6b7280;
   margin-bottom: 32px;
 }
-
+ 
 .templates-grid {
   display: grid;
-  grid-template-columns: repeat(3, 220px);
-  gap: 24px;
-  margin-bottom: 32px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 32px;
+  width: 100%;
+  max-width: 900px;
+  justify-items: center;
 }
+
 
 .template-card {
   background: #fff;
@@ -668,7 +675,11 @@ body.no-scroll {
   transition: all .25s ease;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: center; 
+  width: 100%;
+  max-width: 260px;
+ 
+
 }
 
 .template-card:hover {
@@ -717,6 +728,9 @@ body.no-scroll {
   width: 100%;
   border-radius: 12px;
   display: block;
+ 
+  height: auto;
+  
 }
 
 .template-card span {
@@ -762,4 +776,118 @@ body.no-scroll {
   padding: 4px 8px;
   border-radius: 999px;
 }
+
+#usarModelo {
+  width: 100%;
+  max-width: 320px;
+}
+
+@media (max-width: 480px) {
+  .template-screen h2 {
+    font-size: 22px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .template-card span {
+    font-size: 13px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .templates-grid {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .template-card.disabled {
+    display: none;
+  }
+
+}
+
+/* ===== MODELO MODERN ===== */
+/* ===========================
+   MODELO MODERN PRO
+=========================== */
+
+body[data-template="modern"] .preview {
+  display: grid;
+  grid-template-columns: 32% 68%;
+  gap: 24px;
+  font-family: "Inter", Arial, sans-serif;
+}
+ 
+
+body[data-template="modern"] #pNome {
+  grid-column: 1 / -1;
+  font-size: 34px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  border: none;
+  margin-bottom: 4px;
+}
+
+body[data-template="modern"] #pCargo {
+  grid-column: 1 / -1;
+  color: var(--azul-principal);
+  font-weight: 600;
+  margin-bottom: 28px;
+}
+
+/* ===== CONTATO / SIDEBAR ===== */
+body[data-template="modern"] #pContato,
+body[data-template="modern"] #blocoCompetencias,
+body[data-template="modern"] #blocoHabilidades,
+body[data-template="modern"] #blocoIdiomas {
+  grid-column: 1;
+  background: #f1f5ff;
+  padding: 16px;
+  border-radius: 14px;
+  margin-bottom: 16px;
+}
+
+/* ===== CONTEÚDO PRINCIPAL ===== */
+body[data-template="modern"] #pResumo,
+body[data-template="modern"] #blocoExperiencia,
+body[data-template="modern"] #blocoEducacao,
+body[data-template="modern"] #blocoCertificacoes,
+body[data-template="modern"] #blocoResultados {
+  grid-column: 2;
+}
+
+/* ===== TÍTULOS ===== */
+body[data-template="modern"] .preview h4 {
+  border: none;
+  font-size: 14px;
+  letter-spacing: 1px;
+  color: var(--azul-principal);
+  margin-bottom: 6px;
+}
+
+/* ===== RESUMO ===== */
+body[data-template="modern"] #pResumo {
+  background: transparent;
+  border-left: none;
+  padding: 0;
+  font-size: 15px;
+}
+
+/* ===== LISTAS ===== */
+body[data-template="modern"] ul {
+  padding-left: 18px;
+}
+
+body[data-template="modern"] li {
+  margin-bottom: 8px;
+}
+
+
+ 
+
 
